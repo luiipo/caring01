@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "92777998644",
+    "firebase_url": "https://monitoring-a6b20-default-rtdb.firebaseio.com",
+    "project_id": "monitoring-a6b20",
+    "storage_bucket": "monitoring-a6b20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:92777998644:android:d9abb3bd98e19086f1dd61",
+        "android_client_info": {
+          "package_name": "com.example.caring01"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzg6yPTunv-LFMD-QsYqWlOIzRuyO3Zw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
