@@ -287,14 +287,19 @@ public class StatisticsActivity extends AppCompatActivity {
                         Integer prevRestroom = prevSnapshot.exists() ? prevSnapshot.getValue(Integer.class) : null;
 
                         String changeText = "";
+                        String status = "데이터 없음";
+
                         if (currentRestroom != null && prevRestroom != null) {
                             int change = currentRestroom - prevRestroom;
                             changeText = " (" + (change >= 0 ? "+" : "") + change + "회 변화)";
                         }
 
-                        String status = getToiletStatusText(currentRestroom/7);
+                        if (currentRestroom != null) {
+                            status = getToiletStatusText(currentRestroom / 7);
+                        }
 
-                        updateToiletUI(currentRestroom, changeText, status);
+                        // null-safe 처리로 updateToiletUI 호출
+                        updateToiletUI(currentRestroom != null ? currentRestroom : 0, changeText, status);
                         Log.d("ToiletData", "Current Path: " + currentPath);
                     }
 
@@ -308,7 +313,6 @@ public class StatisticsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e("StatisticsActivity", "Firebase Error: " + error.getMessage());
-
             }
         });
     }
@@ -348,6 +352,7 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
     private String getMovementStatusText(Integer value) {
+
         if (value == null) return "데이터 없음";
         if (value >= 5000) return "양호(적정)";
         if (value >= 3000) return "보통 : 활동량이 다소 적습니다.";
@@ -421,11 +426,14 @@ public class StatisticsActivity extends AppCompatActivity {
 
     private void updateMovementUI(Integer value, String changeText, String status) {
         if (value != null) {
-            txtMovementStatistics.setText("이번주 평균 움직임 횟수는 " + value + "회입니다." + changeText);
+            int avg = value / 7;
+            txtMovementStatistics.setText("이번주 평균 움직임 횟수는 " + avg + "회입니다." + changeText);
             txtMovementStatistics.setTextColor(ContextCompat.getColor(this, android.R.color.black));
 
-            sdsteps.setText(status);
-            sdsteps.setTextColor(getMovementStatusColor(value));
+            // getMovementStatusText() 호출하여 status를 업데이트
+            String movementStatus = getMovementStatusText(avg);
+            sdsteps.setText(movementStatus);  // "주의", "보통", "양호(적정)" 등으로 텍스트 변경
+            sdsteps.setTextColor(getMovementStatusColor(avg));  // 색상도 알맞게 변경
         } else {
             txtMovementStatistics.setText("움직임 데이터를 가져올 수 없습니다.");
             txtMovementStatistics.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray));
@@ -436,9 +444,11 @@ public class StatisticsActivity extends AppCompatActivity {
     }
 
 
+
     private void updateToiletUI(Integer value, String changeText, String status) {
-        int avg = value / 7;
         if (value != null) {
+            // value가 null이 아니므로 연산 가능
+            int avg = value / 7;
             txtToiletStatistics.setText("이번주 평균 화장실 사용 횟수는 " + avg + "회입니다." + changeText);
             txtToiletStatistics.setTextColor(ContextCompat.getColor(this, android.R.color.black));
 
@@ -446,6 +456,7 @@ public class StatisticsActivity extends AppCompatActivity {
             // 올바른 색상 적용
             sdtoilet.setTextColor(getToiletStatusColor(avg));
         } else {
+            // value가 null일 때 처리
             txtToiletStatistics.setText("화장실 데이터를 가져올 수 없습니다.");
             txtToiletStatistics.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
 
@@ -453,6 +464,7 @@ public class StatisticsActivity extends AppCompatActivity {
             sdtoilet.setTextColor(ContextCompat.getColor(this, android.R.color.darker_gray));
         }
     }
+
 
 
 

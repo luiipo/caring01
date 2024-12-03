@@ -1,11 +1,15 @@
 package com.example.caring01;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.helper.StaticLabelsFormatter;
@@ -27,9 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class activity_heart_rate_statistics extends AppCompatActivity {
 

@@ -131,8 +131,6 @@
     </LinearLayout>
 
 
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ToiletrecyclerView"
         android:layout_width="match_parent"
